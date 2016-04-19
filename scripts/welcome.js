@@ -11,6 +11,43 @@ var timeout,
         "Hope you will have an amazing time working with us and are really glad that you’ve joined us."
     ];
 
+function joinUsers(users) {
+    var i, joinedUsers = "";
+
+    // Loop through the array supplied as an argument
+    for (i = 0; i < users.length; i += 1) {
+        // Assign the username to the joinedUsers variable
+        joinedUsers += ('@' + users[i].name);
+        // Check that the current index of the user is not the last in the array
+        if (i !== (users.length - 1)) {
+            // Append a white space to the variable
+            joinedUsers += " ";
+        }
+    }
+
+    return joinedUsers;
+}
+
+function randomReply(users) {
+    var msg,
+        randomMsg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
+        welcome = "Welcome to the Andela team " + joinUsers(users) + ", ";
+
+    welcome += randomMsg;
+
+    // Check if there are users in the usersWithDefaultProfileImage array
+    if (usersWithDefaultProfileImage.length) {
+        msg = '\n\n' + joinUsers(usersWithDefaultProfileImage) + ' please, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
+
+        // Append the msg variable to the welcome message.
+        welcome += msg;
+    }
+
+    // Append the last message to the welcome message
+    welcome += "\n\nEndeavour to add your job role to your profile too. Once you've completed that tiny task, feel free to introduce yourself to us all.\n\nFunny facts are welcome.";
+
+    return welcome;
+}
 
 function bot(robot) {
     robot.enter(function (res) {
@@ -29,7 +66,7 @@ function bot(robot) {
         if (timeout) {
             clearTimeout(timeout);
         }
-        timeout = setTimeout(function() {
+        timeout = setTimeout(function () {
             // Reply all the users within 30 seconds.
             res.send(randomReply(users));
 
@@ -42,42 +79,5 @@ function bot(robot) {
     });
 }
 
-function randomReply(users) {
-    var msg,
-        randomMsg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
-        welcome = "Welcome to the Andela team " + joinUsers(users) + ", ";
-
-    welcome += randomMsg;
-
-    // Check if there are users in the usersWithDefaultProfileImage array
-    if (usersWithDefaultProfileImage.length) {
-        msg = '\n' + joinUsers(usersWithDefaultProfileImage) + ' please, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
-
-        // Append the msg variable to the welcome message.
-        welcome += msg;
-    }
-
-    // Append the last message to the welcome message
-    welcome += "\n\nEndeavour to add your job role to your profile too. Once you've completed that tiny task, feel free to introduce yourself to us all.";
-
-    return welcome;
-}
-
-function joinUsers(users) {
-    var i, joinedUsers = "";
-
-    // Loop through the array supplied as an argument
-    for (i = 0; i < users.length; i++) {
-        // Assign the username to the joinedUsers variable
-        joinedUsers += ('@' + users[i].name);
-        // Check that the current index of the user is not the last in the array
-        if (i !== (users.length - 1)) {
-            // Append a white space to the variable
-            joinedUsers += ' ';
-        }
-    }
-
-    return joinedUsers;
-}
 
 module.exports = bot;
