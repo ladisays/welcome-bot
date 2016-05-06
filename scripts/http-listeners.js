@@ -1,31 +1,12 @@
-var db_url = process.env.DB_URL,
-    heroku_url = process.env.HEROKU_URL;
-
-function formatDate(timestamp) {
-    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        date = new Date(timestamp),
-        year = date.getFullYear(),
-        month = months[date.getMonth()],
-        day = date.getDate(),
-        hour = date.getHours(),
-        min = date.getMinutes(),
-        sec = date.getSeconds(),
-        formattedDate;
-
-        if (sec < 10) {
-            sec = '0' + sec;
-        }
-
-        formattedDate = month + ' ' + day + ', ' + year + '\n' + hour + ':' + min + ':' + sec;
-
-    return formattedDate;
-}
+var DB_URL = process.env.DB_URL,
+    HEROKU_URL = process.env.HEROKU_URL,
+    SLACK_ADMIN_CHANNEL = process.env.SLACK_ADMIN_CHANNEL;
 
 function bot(robot) {
     robot.router.get('/hubot/messages/:message_id', function (req, res) {
         var message_id = req.params.message_id;
 
-        robot.http(db_url + '/messages/' + message_id + '.json')
+        robot.http(DB_URL + '/messages/' + message_id + '.json')
         .headers({'Content-Type': 'application/json'})
         .get()(function (error, response, body) {
             var attachment, approvalUrl;
@@ -36,7 +17,7 @@ function bot(robot) {
 
             body = JSON.parse(body);
 
-            approvalUrl = heroku_url + '/hubot/messages/' + message_id + '/approve';
+            approvalUrl = HEROKU_URL + '/hubot/messages/' + message_id + '/approve';
 
             attachment = {
                 content: {
@@ -60,7 +41,7 @@ function bot(robot) {
                     mrkdwn_in: ['text'],
                     unfurl_links: true
                 },
-                channel: 'ladibot-operations'
+                channel: SLACK_ADMIN_CHANNEL
             };
 
             robot.emit('slack.attachment', attachment);
@@ -79,7 +60,7 @@ function bot(robot) {
                 }
             };
 
-        robot.http(db_url + '/messages/' + message_id + '.json')
+        robot.http(DB_URL + '/messages/' + message_id + '.json')
         .headers({'Content-Type': 'application/json'})
         .get()(function (error, response, body) {
             if (error) {
@@ -93,7 +74,7 @@ function bot(robot) {
             }
 
             if (data.status === 'inactive') {
-                robot.http(db_url + '/messages/' + message_id + '.json')
+                robot.http(DB_URL + '/messages/' + message_id + '.json')
                 .headers({'Content-Type': 'application/json'})
                 .patch(JSON.stringify(options))(function (error, response, body) {
                     if (error) {
@@ -118,6 +99,26 @@ function bot(robot) {
             }
         });
     });
+}
+
+function formatDate(timestamp) {
+    var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        date = new Date(timestamp),
+        year = date.getFullYear(),
+        month = months[date.getMonth()],
+        day = date.getDate(),
+        hour = date.getHours(),
+        min = date.getMinutes(),
+        sec = date.getSeconds(),
+        formattedDate;
+
+        if (sec < 10) {
+            sec = '0' + sec;
+        }
+
+        formattedDate = month + ' ' + day + ', ' + year + '\n' + hour + ':' + min + ':' + sec;
+
+    return formattedDate;
 }
 
 module.exports = bot;
