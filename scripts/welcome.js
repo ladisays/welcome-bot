@@ -82,7 +82,7 @@ function bot(robot) {
 
     robot.enter(function (res) {
         // Check if the user is not a bot and has only entered the general channel
-        if ((res.message.room === 'ladi-bot' || res.message.room === 'general') && !res.message.user.slack.is_bot) {
+        if (res.message.room === 'general' && !res.message.user.slack.is_bot) {
             // Add new user to the users array
             users.push(res.message.user);
 
