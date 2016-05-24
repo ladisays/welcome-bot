@@ -42,14 +42,23 @@ function randomReply(users) {
 
     // Check if there are users in the usersWithDefaultProfileImage array
     if (usersWithDefaultProfileImage.length) {
-        msg = '\n\n' + joinUsers(usersWithDefaultProfileImage) + ' please, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
+        if (usersWithDefaultProfileImage.length === 1) {
+            msg = '\n\nPlease, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
+        } else {
+            msg = '\n\n' + joinUsers(usersWithDefaultProfileImage) + ' please, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
+        }
 
         // Append the msg variable to the welcome message.
         welcome += msg;
     }
 
     if (usersWithNoTitle.length) {
-        msg = '\n\n' + joinUsers(usersWithNoTitle) + ' endeavour to add your job role to your profile too. ';
+        if (usersWithNoTitle.length === 1) {
+            msg = '\n\nAlso, endeavour to add your job role to your profile too. ';
+        } else {
+            msg = '\n\n' + joinUsers(usersWithNoTitle) + ' endeavour to add your job role to your profile too. ';
+        }
+        
         welcome += msg;
     }
 
@@ -82,7 +91,7 @@ function bot(robot) {
 
     robot.enter(function (res) {
         // Check if the user is not a bot and has only entered the general channel
-        if (res.message.room === 'general' && !res.message.user.slack.is_bot) {
+        if (res.message.room === 'general' || 'ladi-bot' && !res.message.user.slack.is_bot) {
             // Add new user to the users array
             users.push(res.message.user);
 
