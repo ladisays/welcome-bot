@@ -6,7 +6,7 @@ var DB_URL = process.env.DB_URL,
     usersWithDefaultProfileImage = [],
     MESSAGES = [],
     WELCOME_MSGS = [
-        "We heard that our company just hired you to be a part of our growing team. Congratulations and on behalf of our members and supervisors, we would like to welcome you! We are all happy and excited for the upbringing of our company.",
+        "We heard that our company just hired you to be a part of our growing team. Congratulations and on behalf of our members and leadership, we would like to welcome you! We are all happy and excited for the upbringing of our company.",
         "Our company is truly happy that you have finally decided to join our team. We believe that you can be one of the best assets here. We can’t wait to know your plans for our team.",
         "Our office welcomes you today as you start working with us. May we have a great time together, simply enjoy our team and work hard. I wish you the best of luck. Welcome aboard!",
         "Welcome to our company! On behalf of our team and management, we would like you to know that we are so grateful to have you. We believe that you can contribute a lot for our company’s success and improvement. Welcome aboard.",
