@@ -35,9 +35,9 @@ function joinUsers(users) {
 
 function randomReply(users) {
     var msg,
-        randomMsg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
-        welcome = "Welcome to the coolest team ever! :andela:";
-        welcome += joinUsers(users) + ", ";
+        randomMsg = MESSAGES.length ? MESSAGES[Math.floor(Math.random() * MESSAGES.length)] : WELCOME_MSGS[0],
+        welcome = joinUsers(users) + " so you got in... WHOOP! WHOOP!!";
+        welcome += "\n\nWelcome to the coolest team ever! :andela: ";
 
     welcome += randomMsg;
 
@@ -64,31 +64,31 @@ function randomReply(users) {
     }
 
     // Append the last message to the welcome message
-    welcome += "\n\nWe'd also love an introduction spiced with funny and weird facts about you. Don't be shy. At Andela, every individual is **__special__**. We can’t wait to discover your superpowers ;)\n\nYou are Andela!\n\nWelcome :tia:";
+    welcome += "\n\nWe'd also love an introduction spiced with funny and weird facts about you. Don't be shy. At Andela, every individual is *_special_*. We can’t wait to discover your superpowers :wink:\n\nYou are Andela!\n\nWelcome :tia:";
 
     return welcome;
 }
 
 function bot(robot) {
     // Get all the messages in the database with the active status
-    robot.http(DB_URL + '/messages.json')
-    .headers({'Content-Type': 'application/json'})
-    .get()(function (err, response, body) {
-        var key;
-        if (err) {
-            MESSAGES = WELCOME_MSGS;
-            return;
-        }
-        if (body) {
-            body = JSON.parse(body);
+    // robot.http(DB_URL + '/messages.json')
+    // .headers({'Content-Type': 'application/json'})
+    // .get()(function (err, response, body) {
+    //     var key;
+    //     if (err) {
+    //         MESSAGES = WELCOME_MSGS;
+    //         return;
+    //     }
+    //     if (body) {
+    //         body = JSON.parse(body);
 
-            for (key in body) {
-                MESSAGES.push(body[key].message);
-            }
+    //         for (key in body) {
+    //             MESSAGES.push(body[key].message);
+    //         }
 
-            return;
-        }
-    });
+    //         return;
+    //     }
+    // });
 
     robot.enter(function (res) {
         // Check if the user is not a bot and has only entered the general channel
