@@ -6,13 +6,14 @@ var DB_URL = process.env.DB_URL,
     usersWithDefaultProfileImage = [],
     MESSAGES = [],
     WELCOME_MSGS = [
-        "We heard that our company just hired you to be a part of our growing team. Congratulations and on behalf of our members and leadership, we would like to welcome you! We are all happy and excited for the upbringing of our company.",
-        "Our company is truly happy that you have finally decided to join our team. We believe that you can be one of the best assets here. We can’t wait to know your plans for our team.",
-        "Our office welcomes you today as you start working with us. May we have a great time together, simply enjoy our team and work hard. I wish you the best of luck. Welcome aboard!",
-        "Welcome to our company! On behalf of our team and management, we would like you to know that we are so grateful to have you. We believe that you can contribute a lot for our company’s success and improvement. Welcome aboard.",
-        "Congratulations for getting the job, thus, we would like you to know that we are all happy and excited to work with you. We believe that your abilities will help our company to grow more and become bigger.",
-        "We are so excited to have you in our group! We believe that you can use your skills and talent in making our company reach new heights.",
-        "Hope you will have an amazing time working with us and are really glad that you’ve joined us."
+        // "We heard that our company just hired you to be a part of our growing team. Congratulations and on behalf of our members and leadership, we would like to welcome you! We are all happy and excited for the upbringing of our company.",
+        // "Our company is truly happy that you have finally decided to join our team. We believe that you can be one of the best assets here. We can’t wait to know your plans for our team.",
+        // "Our office welcomes you today as you start working with us. May we have a great time together, simply enjoy our team and work hard. I wish you the best of luck. Welcome aboard!",
+        // "Welcome to our company! On behalf of our team and management, we would like you to know that we are so grateful to have you. We believe that you can contribute a lot for our company’s success and improvement. Welcome aboard.",
+        // "Congratulations for getting the job, thus, we would like you to know that we are all happy and excited to work with you. We believe that your abilities will help our company to grow more and become bigger.",
+        // "We are so excited to have you in our group! We believe that you can use your skills and talent in making our company reach new heights.",
+        // "Hope you will have an amazing time working with us and are really glad that you’ve joined us.",
+        "You are here because you are EPIC! (I’ll let the P&C team decode that for you) and we are glad you joined us."
     ];
 
 function joinUsers(users) {
@@ -35,7 +36,7 @@ function joinUsers(users) {
 function randomReply(users) {
     var msg,
         randomMsg = MESSAGES[Math.floor(Math.random() * MESSAGES.length)],
-        welcome = "Welcome to the " + COMPANY_NAME + " team ";
+        welcome = "Welcome to the coolest team ever! :andela:";
         welcome += joinUsers(users) + ", ";
 
     welcome += randomMsg;
@@ -43,9 +44,9 @@ function randomReply(users) {
     // Check if there are users in the usersWithDefaultProfileImage array
     if (usersWithDefaultProfileImage.length) {
         if (usersWithDefaultProfileImage.length === 1) {
-            msg = '\n\nPlease, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
+            msg = '\n\nWe love pictures! Please update your Slack profile with an on-fleek profile photo so we can easily spot you around the office.';
         } else {
-            msg = '\n\n' + joinUsers(usersWithDefaultProfileImage) + ' please, ensure you update your slack account with a profile picture, so that you can be easily identified with.';
+            msg = '\n\n' + joinUsers(usersWithDefaultProfileImage) + ' we love pictures! Please update your Slack profile with an on-fleek profile photo so we can easily spot you around the office.';
         }
 
         // Append the msg variable to the welcome message.
@@ -54,16 +55,16 @@ function randomReply(users) {
 
     if (usersWithNoTitle.length) {
         if (usersWithNoTitle.length === 1) {
-            msg = '\n\nAlso, endeavour to add your job role to your profile too. ';
+            msg = "\n\nAdd your role to your profile description so we can easily tease… I mean, know what you're up to.";
         } else {
-            msg = '\n\n' + joinUsers(usersWithNoTitle) + ' endeavour to add your job role to your profile too. ';
+            msg = "\n\n" + joinUsers(usersWithNoTitle) + " add your role to your profile description so we can easily tease… I mean, know what you're up to.";
         }
         
         welcome += msg;
     }
 
     // Append the last message to the welcome message
-    welcome += "\nFeel free to introduce yourself to us all.\n\nFunny facts about you are welcome.";
+    welcome += "\n\nWe'd also love an introduction spiced with funny and weird facts about you. Don't be shy. At Andela, every individual is **__special__**. We can’t wait to discover your superpowers ;)\n\nYou are Andela!\n\nWelcome :tia:";
 
     return welcome;
 }
