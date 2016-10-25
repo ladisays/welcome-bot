@@ -36,8 +36,8 @@ function joinUsers(users) {
 function randomReply(users) {
     var msg,
         randomMsg = MESSAGES.length ? MESSAGES[Math.floor(Math.random() * MESSAGES.length)] : WELCOME_MSGS[0],
-        welcome = joinUsers(users) + " so you got in... WHOOP! WHOOP!!";
-        welcome += "\n\nWelcome to the coolest team ever! :andela: ";
+        welcome = "Yo! " + joinUsers(users) + "\n\nYou got in! WHOOP! WHOOP!!";
+        welcome += "\n\nWelcome to the coolest team ever! :andela: \n\n";
 
     welcome += randomMsg;
 
