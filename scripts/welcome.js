@@ -25,39 +25,45 @@ function bot(robot) {
             // Push the user into the users array.
             new_users.push(res.message.user);
 
-            profile_image_attachment = slack_attachment;
-            profile_title_attachment = slack_attachment;
-            direct_message_attachment = slack_attachment;
+            robot.adapter.client.openDM(res.message.user.id, function (room) {
+                if (!room.ok) {
+                    return res.send("Unable to send a message to <@" + res.message.user.name + "|" + res.message.user.name + ">");
+                }
 
-            direct_message_attachment.content.fallback = "Welcome to " + COMPANY_NAME + " <@" + res.message.user.id + "|" + res.message.user.name + ">";
-            direct_message_attachment.content.title = "Welcome to " + COMPANY_NAME + " <@" + res.message.user.id + "|" + res.message.user.name + ">";
-            direct_message_attachment.content.text = "You are here because you are EPIC! (I’ll let the P&C team decode that for you) and we are glad you joined us.";
-            direct_message_attachment.channel = res.message.user.name;
+                profile_image_attachment = slack_attachment;
+                profile_title_attachment = slack_attachment;
+                direct_message_attachment = slack_attachment;
 
-            robot.emit("slack-attachment", direct_message_attachment);
+                direct_message_attachment.content.fallback = "Welcome to " + COMPANY_NAME + " <@" + res.message.user.id + "|" + res.message.user.name + ">";
+                direct_message_attachment.content.title = "Welcome to " + COMPANY_NAME + " <@" + res.message.user.id + "|" + res.message.user.name + ">";
+                direct_message_attachment.content.text = "You are here because you are EPIC! (I’ll let the P&C team decode that for you) and we are glad you joined us.";
+                direct_message_attachment.channel = room.channel.id;
+
+                robot.emit("slack-attachment", direct_message_attachment);
 
 
-            if (!res.message.user.slack.profile.hasOwnProperty("image_original")) { // check if the user does not have a profile image
-                msg = "We love pictures! Please update your slack profile with an on-fleek profile photo so we can easily spot you around the office.";
+                if (!res.message.user.slack.profile.hasOwnProperty("image_original")) { // check if the user does not have a profile image
+                    msg = "We love pictures! Please update your slack profile with an on-fleek profile photo so we can easily spot you around the office.";
 
-                profile_image_attachment.content.fallback = msg;
-                profile_image_attachment.content.title = "About Your Profile Photo";
-                profile_image_attachment.content.text = msg;
-                profile_image_attachment.channel = res.message.user.name;
+                    profile_image_attachment.content.fallback = msg;
+                    profile_image_attachment.content.title = "About Your Profile Photo";
+                    profile_image_attachment.content.text = msg;
+                    profile_image_attachment.channel = room.channel.id;
 
-                robot.emit("slack-attachment", profile_image_attachment);
-            }
+                    robot.emit("slack-attachment", profile_image_attachment);
+                }
 
-            if (!res.message.user.slack.profile.title) { // check if the user does not have a profile title
-                msg = "Add your role to your profile description so we can easily tease… I mean, know what you're up to.";
+                if (!res.message.user.slack.profile.title) { // check if the user does not have a profile title
+                    msg = "Add your role to your profile description so we can easily tease… I mean, know what you're up to.";
 
-                profile_title_attachment.content.fallback = msg;
-                profile_title_attachment.content.title = "About Your Profile Title";
-                profile_title_attachment.content.text = msg;
-                profile_title_attachment.channel = res.message.user.name;
+                    profile_title_attachment.content.fallback = msg;
+                    profile_title_attachment.content.title = "About Your Profile Title";
+                    profile_title_attachment.content.text = msg;
+                    profile_title_attachment.channel = room.channel.id;
 
-                robot.emit("slack-attachment", profile_title_attachment);
-            }
+                    robot.emit("slack-attachment", profile_title_attachment);
+                }
+            });
         }
 
         // clear timeout if a new user joins the channel within 30 seconds.
